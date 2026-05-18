@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vista Učilica</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app" id="app">
+    <!-- 1. POČETNI EKRAN -->
+    <section id="startScreen" class="screen active">
+      <div class="card center-card">
+        <div class="logo-star" aria-hidden="true">⭐</div>
+        <h1>Vista Učilica</h1>
+        <p class="subtitle">Uči slova, riješi zadatke i skupljaj zvjezdice!</p>
+
+        <div class="button-group">
+          <button class="primary-btn" onclick="openProfileScreen()">Novi profil</button>
+          <button id="continueBtn" class="secondary-btn" onclick="continueGame()">Nastavi igru</button>
+          <button class="audio-btn" onclick="speakStartInstructions()">🔊 Slušaj upute</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. IZRADA PROFILA -->
+    <section id="profileScreen" class="screen">
+      <div class="card">
+        <h2>Izradi svoj profil</h2>
+        <p class="screen-help">Upiši ime, odaberi avatar i boju pozadine.</p>
+
+        <label for="childName" class="field-label">Ime djeteta</label>
+        <input id="childName" class="text-input" type="text" placeholder="Upiši ime" maxlength="20" />
+
+        <h3>Odaberi avatar</h3>
+        <div class="choice-row" id="avatarChoices" aria-label="Odabir avatara">
+          <button class="avatar-choice selected" data-avatar="👧" onclick="selectAvatar(this)">👧</button>
+          <button class="avatar-choice" data-avatar="🧒" onclick="selectAvatar(this)">🧒</button>
+          <button class="avatar-choice" data-avatar="🦊" onclick="selectAvatar(this)">🦊</button>
+          <button class="avatar-choice" data-avatar="🐶" onclick="selectAvatar(this)">🐶</button>
+        </div>
+
+        <h3>Odaberi boju pozadine</h3>
+        <div class="choice-row" id="themeChoices" aria-label="Odabir boje pozadine">
+          <button class="theme-choice selected" data-theme="light" onclick="selectTheme(this)">Svijetla</button>
+          <button class="theme-choice" data-theme="blue" onclick="selectTheme(this)">Plava</button>
+          <button class="theme-choice" data-theme="cream" onclick="selectTheme(this)">Krem</button>
+        </div>
+
+        <p id="profileMessage" class="message" role="status"></p>
+
+        <div class="nav-row">
+          <button class="secondary-btn" onclick="showScreen('startScreen')">Natrag</button>
+          <button class="primary-btn" onclick="saveProfile()">Spremi profil</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. GLAVNI IZBORNIK -->
+    <section id="mainMenuScreen" class="screen">
+      <div class="card center-card">
+        <div id="profileBadge" class="profile-badge">👧</div>
+        <h2>Glavni izbornik</h2>
+        <p id="greeting" class="greeting">Bok!</p>
+
+        <div class="button-group">
+          <button class="primary-btn" onclick="showScreen('levelScreen')">✅ Rješavanje zadataka</button>
+          <button class="secondary-btn" onclick="showProgressScreen()">📊 Pregled napretka</button>
+          <button class="audio-btn" onclick="speakMainMenuInstructions()">🔊 Slušaj upute</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ODABIR RAZINE -->
+    <section id="levelScreen" class="screen">
+      <div class="card center-card">
+        <h2>Odaberi razinu</h2>
+        <p class="screen-help">Odaberi razinu za kviz od 10 pitanja.</p>
+
+        <div class="level-grid">
+          <button class="level-card" onclick="selectLevel('easy')">
+            <span class="level-title">Lakša razina ⭐</span>
+            <span class="level-desc">Više pomoći</span>
+          </button>
+
+          <button class="level-card" onclick="selectLevel('hard')">
+            <span class="level-title">Teža razina 🚀</span>
+            <span class="level-desc">Veći izazov</span>
+          </button>
+        </div>
+
+        <button class="secondary-btn small-wide" onclick="showScreen('mainMenuScreen')">Natrag</button>
+      </div>
+    </section>
+
+    <!-- 5A. ZADATAK 1: SLOVO KOJE ČUJEŠ -->
+    <section id="letterTaskScreen" class="screen">
+      <div class="card">
+        <div class="top-row">
+          <span id="letterTaskChip" class="task-chip">Pitanje 1/10</span>
+          <span id="letterStarCounter" class="star-counter">⭐ 0</span>
+        </div>
+
+        <h2>Odaberi točno slovo koje čuješ</h2>
+        <p class="screen-help">Poslušaj slovo i klikni točan odgovor.</p>
+
+        <button class="audio-btn large-audio" onclick="speakCurrentLetter()">🔊 Slušaj ponovno</button>
+
+        <div id="letterOptions" class="answer-grid"></div>
+        <p id="letterFeedback" class="feedback" role="status"></p>
+
+        <div class="nav-row">
+          <button class="secondary-btn" onclick="showScreen('levelScreen')">Natrag</button>
+          <button id="letterNextBtn" class="primary-btn hidden" onclick="goToNextQuestion()">Sljedeće pitanje</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5B. ZADATAK 2: ŠTO JE NESTALO? -->
+    <section id="missingTaskScreen" class="screen">
+      <div class="card">
+        <div class="top-row">
+          <span id="missingTaskChip" class="task-chip">Pitanje 2/10</span>
+          <span id="missingStarCounter" class="star-counter">⭐ 0</span>
+        </div>
+
+        <h2>Što je nestalo?</h2>
+        <p id="missingInstruction" class="screen-help">Pogledaj slike. Jedna će nestati.</p>
+
+        <div id="objectDisplay" class="object-display"></div>
+        <div id="missingChoices" class="answer-grid hidden"></div>
+
+        <button id="startMissingBtn" class="primary-btn small-wide" onclick="beginMissingRound()">Pogledaj slike</button>
+        <p id="missingFeedback" class="feedback" role="status"></p>
+
+        <div class="nav-row">
+          <button class="secondary-btn" onclick="showScreen('levelScreen')">Natrag</button>
+          <button id="missingNextBtn" class="primary-btn hidden" onclick="goToNextQuestion()">Sljedeće pitanje</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5C. ZADATAK 3: SLOŽI RIJEČ -->
+    <section id="wordTaskScreen" class="screen">
+      <div class="card">
+        <div class="top-row">
+          <span id="wordTaskChip" class="task-chip">Pitanje 3/10</span>
+          <span id="wordStarCounter" class="star-counter">⭐ 0</span>
+        </div>
+
+        <h2>Složi riječ od slova</h2>
+        <p class="screen-help">Pogledaj sliku i složi riječ. Slova možeš povući ili kliknuti.</p>
+
+        <div class="picture-card">
+          <div id="wordEmoji" class="big-emoji">🐶</div>
+          <p id="wordHint" class="hint-text">Što je na slici?</p>
+        </div>
+
+        <div id="dropZones" class="drop-zones"></div>
+        <div id="letterTiles" class="letter-tiles"></div>
+
+        <p id="wordFeedback" class="feedback" role="status"></p>
+
+        <div class="nav-row">
+          <button id="wordResetBtn" class="secondary-btn" onclick="resetWordPuzzle()">Pokušaj ponovno</button>
+          <button id="wordNextBtn" class="primary-btn hidden" onclick="goToNextQuestion()">Sljedeće pitanje</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ZAVRŠNI EKRAN -->
+    <section id="finalScreen" class="screen">
+      <div class="card center-card">
+        <div class="logo-star" aria-hidden="true">🌟</div>
+        <h2>Bravo!</h2>
+        <p class="subtitle">Uspješno si riješio/la kviz.</p>
+
+        <div class="result-box">
+          <p id="finalStars">Osvojene zvjezdice: 0 ⭐</p>
+          <p id="finalTasks">Broj riješenih pitanja: 0</p>
+          <p id="finalCorrect">Točni odgovori: 0/10</p>
+          <p class="praise">Odlično ti ide!</p>
+        </div>
+
+        <div class="button-group">
+          <button class="primary-btn" onclick="showScreen('levelScreen')">Igraj ponovno</button>
+          <button class="secondary-btn" onclick="showProgressScreen()">Pregledaj napredak</button>
+          <button class="audio-btn" onclick="showScreen('mainMenuScreen')">Glavni izbornik</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. PREGLED NAPRETKA -->
+    <section id="progressScreen" class="screen">
+      <div class="card">
+        <h2>Pregled napretka</h2>
+        <p id="progressName" class="greeting">Korisnik</p>
+
+        <div class="progress-summary">
+          <div class="stat-card">
+            <span class="stat-number" id="progressStars">0</span>
+            <span class="stat-label">zvjezdica</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="progressTasks">0</span>
+            <span class="stat-label">zadataka</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="progressPercent">0%</span>
+            <span class="stat-label">točnosti</span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Zadatak</th>
+                <th>Točno</th>
+                <th>Ukupno</th>
+              </tr>
+            </thead>
+            <tbody id="progressTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="nav-row">
+          <button class="secondary-btn" onclick="showScreen('mainMenuScreen')">Glavni izbornik</button>
+          <button class="danger-btn" onclick="resetProgress()">Obriši napredak</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
