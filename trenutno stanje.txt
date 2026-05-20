@@ -1,0 +1,7 @@
+Trenutno je izrađena prva verzija aplikacije Vista Učilica za djecu s ADHD-om i disleksijom.
+Aplikacija sadrži korisnički profil, odabir razine težine, kviz od 10 pitanja s tri tipa zadataka
+te pregled napretka pomoću zvjezdica i rezultata. 
+Dokumentacija je djelomično popunjena i uključuje opis projekta, analizu potreba, korisnički scenarij,
+storyboard, modeliranje medija, navigacije, percepcije, prijenosa podataka i organizacije sadržaja.
+Do finalne predaje potrebno je dodatno testirati aplikaciju, doraditi stil dokumentacije i po potrebi
+poboljšati vizualni izgled sučelja. Trenutno nemam većih nejasnoća, osim mogućih sitnih dorada nakon povratne informacije.
