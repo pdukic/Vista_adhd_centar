@@ -5,3 +5,5 @@ Dokumentacija je djelomično popunjena i uključuje opis projekta, analizu potre
 storyboard, modeliranje medija, navigacije, percepcije, prijenosa podataka i organizacije sadržaja.
 Do finalne predaje potrebno je dodatno testirati aplikaciju, doraditi stil dokumentacije i po potrebi
 poboljšati vizualni izgled sučelja. Trenutno nemam većih nejasnoća, osim mogućih sitnih dorada nakon povratne informacije.
+
+Github link: https://github.com/pdukic/Vista_adhd_centar.git
