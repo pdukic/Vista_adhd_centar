@@ -395,7 +395,7 @@ function beginMissingRound() {
   speak("Dobro pogledaj slike. Jedna će nestati. Pokušaj zapamtiti sve slike na ekranu.");
 
   // Produljeno vrijeme kako se zvučna uputa ne bi prekinula prerano.
-  const delay = selectedLevel === "easy" ? 7000 : 6500;
+  const delay = selectedLevel === "easy" ? 7000 : 8500;
 
   setTimeout(() => {
     missingCorrectObject = randomItem(currentObjects);
